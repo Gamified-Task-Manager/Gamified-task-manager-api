@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::API
   rescue_from ActiveRecord::RecordNotFound, with: :render_not_found
   rescue_from JWT::DecodeError, with: :render_unauthorized
-
   before_action :authorize_request
 
   private
