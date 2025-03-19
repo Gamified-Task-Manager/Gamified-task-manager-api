@@ -8,8 +8,17 @@ module Api
 
         if result.success?
           render json: {
-            data: UserSerializer.new(result.user).serializable_hash[:data],
-            token: result.token
+            data: {
+              id: result.user.id.to_s,
+              type: 'user',
+              attributes: {
+                email: result.user.email,
+                username: result.user.username,
+                created_at: result.user.created_at,
+                updated_at: result.user.updated_at,
+                token: result.token
+              }
+            }
           }, status: :created
         else
           render json: ErrorSerializer.serialize(result.errors, 422), status: :unprocessable_entity
@@ -18,7 +27,7 @@ module Api
 
       def show
         render json: UserSerializer.new(current_user).serializable_hash, status: :ok
-      end       
+      end
 
       private
 
