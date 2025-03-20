@@ -7,12 +7,14 @@ RSpec.describe 'User Sessions', type: :request do
     context 'with valid credentials' do
       it 'returns a token and user data' do
         post '/api/v1/session', params: { email: user.email, password: 'password123' }
-  
+
         expect(response).to have_http_status(:created)
-  
+
         body = JSON.parse(response.body)
-        expect(body['data']['attributes']['email']).to eq(user.email)
-        expect(body['token']).to be_present
+        attributes = body['data']['attributes']
+
+        expect(attributes['email']).to eq(user.email)
+        expect(attributes['token']).to be_present 
       end
     end
 

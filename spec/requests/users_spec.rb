@@ -38,7 +38,7 @@ RSpec.describe 'User Requests', type: :request do
 
         body = JSON.parse(response.body)
         expect(body['data']['attributes']['email']).to eq('new@example.com')
-        expect(body['token']).to eq('fake-jwt-token')
+        expect(body['data']['attributes']['token']).to eq('fake-jwt-token')
       end
     end
 
