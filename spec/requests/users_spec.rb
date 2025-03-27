@@ -19,16 +19,18 @@ RSpec.describe 'User Requests', type: :request do
     context 'with valid data' do
       let(:valid_params) do
         {
-          username: 'newuser',
-          email: 'new@example.com',
-          password: 'password123',
-          password_confirmation: 'password123'
+          user: {
+            username: 'newuser',
+            email: 'new@example.com',
+            password: 'password123',
+            password_confirmation: 'password123'
+          }
         }
       end
 
       before do
         allow(UserService).to receive(:create_user).and_return(
-          OpenStruct.new(success?: true, user: User.new(valid_params), token: 'fake-jwt-token')
+          OpenStruct.new(success?: true, user: User.new(valid_params[:user]), token: 'fake-jwt-token')
         )
         post '/api/v1/users', params: valid_params
       end
@@ -45,12 +47,14 @@ RSpec.describe 'User Requests', type: :request do
     context 'with invalid data' do
       let(:invalid_params) do
         {
-          username: '',
-          email: '',
-          password: 'password123',
-          password_confirmation: 'wrongpassword'
+          user: {
+            username: '',
+            email: '',
+            password: 'password123',
+            password_confirmation: 'wrongpassword'
+          }
         }
-      end
+      end      
 
       before do
         allow(UserService).to receive(:create_user).and_return(
