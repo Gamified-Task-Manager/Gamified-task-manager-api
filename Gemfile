@@ -82,3 +82,5 @@ group :development, :test do
   # Rubocop configuration tailored for Rails
   gem "rubocop-rails-omakase", require: false
 end
+
+gem "dockerfile-rails", ">= 1.7", :group => :development
