@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "Tasks API", type: :request do
   let!(:user) { create(:user) }
-  let!(:task) { create(:task, user: user) }
+  let!(:task) { create(:task, user: user, completed: false, status: "pending") }
   let(:token) { AuthService.encode(user_id: user.id) }
   let(:headers) { { 'Authorization' => "Bearer #{token}" } }
   
@@ -83,13 +83,10 @@ RSpec.describe "Tasks API", type: :request do
   describe "PATCH /api/v1/tasks/:id" do
     let(:valid_params) { { name: "Updated Task" } }
 
-    context "when task is updated successfully" do
-      it "updates the task and returns it" do
-        patch "/api/v1/tasks/#{task.id}", params: { task: valid_params }, headers: headers
-
-        expect(response).to have_http_status(:ok)
-        expect(json['data']['attributes']['name']).to eq("Updated Task")
-      end
+    it "updates the task and returns it" do
+      patch "/api/v1/tasks/#{task.id}", params: { task: valid_params }, headers: headers
+      expect(response).to have_http_status(:ok)
+      expect(json['data']['attributes']['name']).to eq("Updated Task")
     end
 
     context "when task update fails" do

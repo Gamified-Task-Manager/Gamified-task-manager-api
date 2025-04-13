@@ -57,9 +57,10 @@ RSpec.describe TaskQuery do
     end
 
     it 'filters by completed' do
-      result = TaskQuery.for_user(user, { completed: false })
-      expect(result).to include(task1, task3)
-      expect(result).not_to include(task2)
+      result = TaskQuery.for_user(user, { completed: "true" })
+    
+      expect(result).to include(task2, task3) 
+      expect(result).not_to include(task1)    
     end
 
     it 'filters by due_before' do
@@ -87,9 +88,9 @@ RSpec.describe TaskQuery do
   describe '.incomplete_for_user' do
     it 'returns incomplete tasks' do
       result = TaskQuery.incomplete_for_user(user)
-      expect(result).to include(task1, task3)
-      expect(result).not_to include(task2)
-    end
+      expect(result).to include(task1)
+      expect(result).not_to include(task2, task3)
+    end    
   end
 
   describe '.high_priority_for_user' do

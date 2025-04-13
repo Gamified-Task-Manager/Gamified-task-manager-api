@@ -20,9 +20,9 @@ RSpec.describe Task, type: :model do
   describe 'scopes' do
     describe '.incomplete' do
       it 'returns tasks that are not completed' do
-        incomplete_task = create(:task, completed: false)
-        completed_task = create(:task, completed: true)
-
+        incomplete_task = create(:task, status: "pending", completed: false)
+        completed_task = create(:task, status: "completed", completed: true)
+    
         expect(Task.incomplete).to include(incomplete_task)
         expect(Task.incomplete).not_to include(completed_task)
       end
