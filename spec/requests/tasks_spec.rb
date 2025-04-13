@@ -80,6 +80,24 @@ RSpec.describe "Tasks API", type: :request do
     end
   end
 
+  context "when trying to modify a completed task" do
+    let!(:completed_task) { create(:task, user: user, completed: true, status: "completed") }
+  
+    it "returns 422 when status is changed from completed" do
+      patch "/api/v1/tasks/#{completed_task.id}", params: { task: { status: "pending" } }, headers: headers
+  
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(json['errors'].first['title']).to eq("You cannot modify a completed task.")
+    end
+  
+    it "returns 422 when completed is set to false" do
+      patch "/api/v1/tasks/#{completed_task.id}", params: { task: { completed: false } }, headers: headers
+  
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(json['errors'].first['title']).to eq("You cannot modify a completed task.")
+    end
+  end
+
   describe "PATCH /api/v1/tasks/:id" do
     let(:valid_params) { { name: "Updated Task" } }
 
