@@ -6,16 +6,12 @@
 # Read more: https://github.com/cyu/rack-cors
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'http://localhost:5173' # ✅ No wildcard, specific origin only
+    origins 'http://localhost:5173', 'https://gamified-task-manager-frontend.vercel.app' # ✅ Added deployed frontend
 
     resource '*',
       headers: :any,
-      expose: ['Authorization'], # ✅ Strings, not symbols
-      methods: %w[get post put patch delete options head], # ✅ Strings, not symbols
-      credentials: true # ✅ Allow credentials
+      expose: ['Authorization'], 
+      methods: %w[get post put patch delete options head],
+      credentials: true
   end
 end
-
-
-
-

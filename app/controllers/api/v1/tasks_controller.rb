@@ -3,7 +3,7 @@ class Api::V1::TasksController < ApplicationController
   before_action :set_task, only: [:show, :update, :destroy]
 
   def index
-    tasks = TaskQuery.for_user(@current_user)
+    tasks = TaskQuery.for_user(@current_user, params)
     render json: TaskSerializer.new(tasks).serializable_hash, status: :ok
   end
 
@@ -19,6 +19,10 @@ class Api::V1::TasksController < ApplicationController
   end
 
   def update
+    if @task.completed? && (task_params[:status] != "completed" || task_params[:completed] == false)
+      render json: ErrorSerializer.serialize(["You cannot modify a completed task."], 422), status: :unprocessable_entity
+      return
+    end
     task = TaskService.new(@current_user).update(@task, task_params)
     render json: TaskSerializer.new(task).serializable_hash, status: :ok
   rescue ServiceError => e
