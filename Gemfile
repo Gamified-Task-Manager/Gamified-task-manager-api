@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem "rails", "~> 8.0.1"
+gem "rails", "~> 8.0.2"
 
 # For secure password hashing
 gem 'bcrypt', '~> 3.1.7'
