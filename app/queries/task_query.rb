@@ -35,7 +35,7 @@ class TaskQuery
 
     when "name"
       # Sort alphabetically by task name
-      tasks = tasks.order(name: :asc)
+      tasks = tasks.order("LOWER(name) ASC")
 
     else
       # Default sort (most recently created first)
