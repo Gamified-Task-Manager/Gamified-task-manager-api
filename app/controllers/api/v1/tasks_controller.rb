@@ -19,16 +19,15 @@ class Api::V1::TasksController < ApplicationController
   end
 
   def update
-    if @task.completed? && (task_params[:status] != "completed" || task_params[:completed] == false)
-      render json: ErrorSerializer.serialize(["You cannot modify a completed task."], 422), status: :unprocessable_entity
-      return
-    end
     task = TaskService.new(@current_user).update(@task, task_params)
-    render json: TaskSerializer.new(task).serializable_hash, status: :ok
+  
+    render json: TaskSerializer.new(task).serializable_hash.merge(
+      meta: { new_user_points: @current_user.points }
+    ), status: :ok
   rescue ServiceError => e
     render json: ErrorSerializer.serialize(e.errors, e.status), status: e.status
   end
-
+  
   def destroy
     TaskService.new(@current_user).destroy(@task)
     head :no_content
