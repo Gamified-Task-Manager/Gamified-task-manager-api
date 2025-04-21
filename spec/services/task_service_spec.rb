@@ -54,6 +54,43 @@ RSpec.describe TaskService do
         }
       end 
     end
+
+    context 'when task transitions to completed' do
+      let(:task) { create(:task, user: user, status: 'pending', completed: false, points_awarded: 10) }
+  
+      it 'awards points to the user' do
+        expect {
+          service.update(task, { status: 'completed' })
+        }.to change { user.reload.points }.by(10)
+      end
+  
+      it 'marks the task as completed' do
+        service.update(task, { status: 'completed' })
+        expect(task.reload.completed).to be true
+      end
+    end
+  
+    context 'when task is already completed' do
+      let(:task) { create(:task, user: user, status: 'completed', completed: true, points_awarded: 10) }
+  
+      it 'does not allow updating a completed task' do
+        expect {
+          service.update(task, { description: 'Updated description' })
+        }.to raise_error(ServiceError) { |e|
+          expect(e.errors).to include("You cannot modify a completed task.")
+          expect(e.status).to eq(422)
+        }
+      end
+  
+      it 'raises an error if attempting to un-complete the task' do
+        expect {
+          service.update(task, { status: 'pending' })
+        }.to raise_error(ServiceError) { |e|
+          expect(e.errors).to include("You cannot modify a completed task.")
+          expect(e.status).to eq(422)
+        }
+      end
+    end
   end
 
   describe '#destroy' do
