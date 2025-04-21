@@ -18,15 +18,20 @@ class Api::V1::TasksController < ApplicationController
     render json: ErrorSerializer.serialize(e.errors, e.status), status: e.status
   end
 
-  def update
-    task = TaskService.new(@current_user).update(@task, task_params)
-  
-    render json: TaskSerializer.new(task).serializable_hash.merge(
-      meta: { new_user_points: @current_user.points }
-    ), status: :ok
-  rescue ServiceError => e
-    render json: ErrorSerializer.serialize(e.errors, e.status), status: e.status
-  end
+  # app/controllers/api/v1/tasks_controller.rb
+
+def update
+  task = TaskService.new(@current_user).update(@task, task_params)
+
+  render json: TaskSerializer.new(task).serializable_hash.merge(
+    meta: {
+      new_user_points: @current_user.points, 
+      points_awarded: task.points_awarded
+    }
+  ), status: :ok
+rescue ServiceError => e
+  render json: ErrorSerializer.serialize(e.errors, e.status), status: e.status
+end
   
   def destroy
     TaskService.new(@current_user).destroy(@task)

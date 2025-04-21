@@ -32,4 +32,22 @@ class Task < ApplicationRecord
   def downcase_priority
     self.priority = priority.downcase if priority.present?
   end
+
+def calculate_points
+  base = 10
+  bonus = 0
+
+  if due_date.present? && completed_at.present? && completed_at < due_date
+    bonus += 5
+  end
+
+  case priority
+  when 'medium'
+    bonus += 3
+  when 'high'
+    bonus += 5
+  end
+
+  base + bonus
+end
 end

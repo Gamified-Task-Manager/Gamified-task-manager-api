@@ -37,6 +37,9 @@ class TaskService
 
   def award_points_if_applicable(task, was_previously_completed)
     return unless !was_previously_completed && task.status == "completed"
-    @user.award_points!(task.points_awarded)
+  
+    points = task.calculate_points
+    task.update!(points_awarded: points)
+    @user.award_points!(points)
   end
 end
