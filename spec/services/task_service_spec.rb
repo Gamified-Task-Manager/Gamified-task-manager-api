@@ -32,8 +32,9 @@ RSpec.describe TaskService do
 
   describe '#update' do
     context 'when update is successful' do
+      let(:task) { create(:task, user: user, status: 'pending', completed: false) }
       let(:params) { { name: 'Updated Task' } }
-
+  
       it 'updates the task' do
         updated_task = service.update(task, params)
         expect(updated_task.name).to eq('Updated Task')
@@ -41,8 +42,9 @@ RSpec.describe TaskService do
     end
 
     context 'when update fails' do
+      let(:task) { create(:task, user: user, status: 'pending', completed: false) }
       let(:params) { { name: nil } }
-
+  
       it 'raises a ServiceError with validation errors' do
         expect {
           service.update(task, params)
@@ -50,34 +52,34 @@ RSpec.describe TaskService do
           expect(e.errors).to include("Name can't be blank")
           expect(e.status).to eq(422)
         }
-      end
+      end 
     end
   end
 
   describe '#destroy' do
-  context 'when task is successfully destroyed' do
-    it 'destroys the task' do
-      task_id = task.id
-      service.destroy(task)
-      
-      # Confirm the task is gone from the database
-      expect(Task.find_by(id: task_id)).to be_nil
-    end
-  end  
-
-  context 'when task destruction fails' do
-    before do
-      allow(task).to receive(:destroy!).and_raise(ActiveRecord::RecordNotDestroyed)
-    end
-  
-    it 'raises a ServiceError' do
-      expect {
+    context 'when task is successfully destroyed' do
+      it 'destroys the task' do
+        task_id = task.id
         service.destroy(task)
-      }.to raise_error(ServiceError) { |e|
-        expect(e.errors).to include("Failed to destroy task")
-        expect(e.status).to eq(422)
-      }
-    end
+        
+        # Confirm the task is gone from the database
+        expect(Task.find_by(id: task_id)).to be_nil
+      end
+    end  
+
+    context 'when task destruction fails' do
+      before do
+        allow(task).to receive(:destroy!).and_raise(ActiveRecord::RecordNotDestroyed)
+      end
+    
+      it 'raises a ServiceError' do
+        expect {
+          service.destroy(task)
+        }.to raise_error(ServiceError) { |e|
+          expect(e.errors).to include("Failed to destroy task")
+          expect(e.status).to eq(422)
+        }
+      end
     end
   end
 end
