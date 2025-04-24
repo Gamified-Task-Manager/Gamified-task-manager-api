@@ -18,8 +18,6 @@ class Api::V1::TasksController < ApplicationController
     render json: ErrorSerializer.serialize(e.errors, e.status), status: e.status
   end
 
-  # app/controllers/api/v1/tasks_controller.rb
-
 def update
   task = TaskService.new(@current_user).update(@task, task_params)
 
