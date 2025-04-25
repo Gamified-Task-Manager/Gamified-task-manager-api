@@ -83,12 +83,10 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
-  # ✅ Insert CORS middleware INSIDE the configure block
+  # ✅ Allow any origin for now, while keeping credentials (temporary debugging CORS config)
   config.middleware.insert_before 0, Rack::Cors do
     allow do
-      origins 'http://localhost:5173',
-              'https://gamified-task-manager-frontend.vercel.app',
-              /https:\/\/gamified-task-manager-frontend-[\w-]+\.vercel\.app/
+      origins '*'
 
       resource '*',
         headers: :any,
