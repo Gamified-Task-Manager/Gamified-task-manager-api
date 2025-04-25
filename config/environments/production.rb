@@ -86,8 +86,10 @@ Rails.application.configure do
   # ✅ Allow any origin for now, while keeping credentials (temporary debugging CORS config)
   config.middleware.insert_before 0, Rack::Cors do
     allow do
-      origins '*'
-
+      origins 'http://localhost:5173',
+              'https://gamified-task-manager-frontend.vercel.app',
+              'https://gamified-task-manager-frontend-czd6x9fkg-tdmannings-projects.vercel.app'
+  
       resource '*',
         headers: :any,
         expose: ['Authorization'],
@@ -95,4 +97,5 @@ Rails.application.configure do
         credentials: true
     end
   end
+  
 end
