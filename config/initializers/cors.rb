@@ -6,7 +6,9 @@
 # Read more: https://github.com/cyu/rack-cors
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'http://localhost:5173', 'https://gamified-task-manager-frontend.vercel.app' # ✅ Added deployed frontend
+    origins 'http://localhost:5173',
+        'https://gamified-task-manager-frontend.vercel.app',
+        /https:\/\/gamified-task-manager-frontend-[\w-]+\.vercel\.app/ 
 
     resource '*',
       headers: :any,
