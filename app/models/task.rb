@@ -14,6 +14,24 @@ class Task < ApplicationRecord
 
   scope :incomplete, -> { where(completed: false) }
 
+  def calculate_points
+    base = 10
+    bonus = 0
+  
+    if due_date.present? && completed_at.present? && completed_at < due_date
+      bonus += 5
+    end
+  
+    case priority
+    when 'medium'
+      bonus += 3
+    when 'high'
+      bonus += 5
+    end
+  
+    base + bonus
+  end
+  
   private
 
   def update_completed_flag

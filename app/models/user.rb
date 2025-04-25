@@ -11,4 +11,11 @@ class User < ApplicationRecord
   validates :username, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true
   validates :password_digest, presence: true
+
+  # app/models/user.rb
+def award_points!(amount)
+  return if amount.to_i <= 0
+  increment!(:points, amount)
+end
+
 end
