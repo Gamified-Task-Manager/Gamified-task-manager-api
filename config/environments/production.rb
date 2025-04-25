@@ -51,7 +51,6 @@ Rails.application.configure do
   config.solid_queue.connects_to = { database: { writing: :queue } }
 
   # Ignore bad email addresses and do not raise email delivery errors.
-  # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
 
   # Set host to be used by links generated in mailer templates.
@@ -66,8 +65,7 @@ Rails.application.configure do
   #   authentication: :plain
   # }
 
-  # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
-  # the I18n.default_locale when a translation cannot be found).
+  # Enable locale fallbacks for I18n (makes lookups for any locale fall back to the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true
 
   # Do not dump schema after migrations.
@@ -84,4 +82,19 @@ Rails.application.configure do
   #
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+
+  # ✅ Insert CORS middleware INSIDE the configure block
+  config.middleware.insert_before 0, Rack::Cors do
+    allow do
+      origins 'http://localhost:5173',
+              'https://gamified-task-manager-frontend.vercel.app',
+              /https:\/\/gamified-task-manager-frontend-[\w-]+\.vercel\.app/
+
+      resource '*',
+        headers: :any,
+        expose: ['Authorization'],
+        methods: %w[get post put patch delete options head],
+        credentials: true
+    end
+  end
 end
