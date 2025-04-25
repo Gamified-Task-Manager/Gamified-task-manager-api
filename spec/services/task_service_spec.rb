@@ -61,7 +61,6 @@ RSpec.describe TaskService do
           service.update(task, { status: 'completed' })
         }.to change { user.reload.points }.by(expected_points)
       end
-      
   
       it 'marks the task as completed' do
         service.update(task, { status: 'completed' })
