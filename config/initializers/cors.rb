@@ -7,8 +7,9 @@
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     origins 'http://localhost:5173',
-        'https://gamified-task-manager-frontend.vercel.app',
-        /https:\/\/gamified-task-manager-frontend-[\w-]+\.vercel\.app/ 
+    'https://gamified-task-manager-frontend.vercel.app',
+    'https://gamified-task-manager-frontend-czd6x9fkg-tdmannings-projects.vercel.app',
+    'https://gamified-task-manager-api.fly.dev/api/v1/users'
 
     resource '*',
       headers: :any,

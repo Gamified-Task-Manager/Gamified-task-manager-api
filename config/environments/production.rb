@@ -83,6 +83,9 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
+  config.active_job.queue_adapter = :solid_queue
+  config.solid_queue.connects_to = { database: { writing: :queue } }
+
   # ✅ Allow any origin for now, while keeping credentials (temporary debugging CORS config)
   config.middleware.insert_before 0, Rack::Cors do
     allow do
@@ -97,5 +100,4 @@ Rails.application.configure do
         credentials: true
     end
   end
-  
 end

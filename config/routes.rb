@@ -9,6 +9,5 @@ Rails.application.routes.draw do
     end
   end
 
-  # ✅ This catches OPTIONS requests for CORS
-  match '*path', via: :options, to: ->(_) { [204, { 'Content-Type' => 'text/plain' }, []] }
+  match '*path', to: 'application#preflight', via: [:options]
 end

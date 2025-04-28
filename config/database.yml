@@ -32,3 +32,9 @@ production:
     username: gamified_task_manager_api
     password: <%= ENV["GAMIFIED_TASK_MANAGER_API_DATABASE_PASSWORD"] %>
     url: <%= ENV["DATABASE_URL"] %>
+  queue:
+    <<: *default
+    database: gamified_task_manager_api_production_queue
+    username: gamified_task_manager_api
+    password: <%= ENV["GAMIFIED_TASK_MANAGER_API_DATABASE_PASSWORD"] %>
+    migrations_paths: db/queue_migrate
