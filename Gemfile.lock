@@ -321,12 +321,6 @@ GEM
     securerandom (0.4.1)
     shoulda-matchers (6.4.0)
       activesupport (>= 5.2.0)
-    sidekiq (8.0.3)
-      connection_pool (>= 2.5.0)
-      json (>= 2.9.0)
-      logger (>= 1.6.2)
-      rack (>= 3.1.0)
-      redis-client (>= 0.23.2)
     simplecov (0.22.0)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
@@ -410,7 +404,6 @@ DEPENDENCIES
   rswag
   rubocop-rails-omakase
   shoulda-matchers
-  sidekiq
   simplecov
   solid_cable
   solid_cache

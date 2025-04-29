@@ -3,15 +3,19 @@ default: &default
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
+# Development database configuration
 development:
   <<: *default
   database: gamified_task_manager_api_development
 
+# Test database configuration
 test:
   <<: *default
   database: gamified_task_manager_api_test
 
+# Production database configurations
 production:
+  # Primary database for your application data
   primary: &primary_production
     <<: *default
     database: gamified_task_manager_api_production
@@ -19,6 +23,7 @@ production:
     password: <%= ENV["GAMIFIED_TASK_MANAGER_API_DATABASE_PASSWORD"] %>
     url: <%= ENV["DATABASE_URL"] %>
 
+  # Separate Queue database configuration for ActiveJob/Solid Queue
   queue:
     <<: *default
     database: gamified_task_manager_api_production_queue
@@ -27,8 +32,10 @@ production:
     migrations_paths: db/queue_migrate
     url: <%= URI.parse(ENV["DATABASE_URL"]).tap { |url| url.path += "_queue" } if ENV["DATABASE_URL"] %>
 
+  # ActionCable uses the primary database configuration
   cable:
     <<: *primary_production
 
+  # Cache store also uses the primary database configuration
   cache:
     <<: *primary_production
