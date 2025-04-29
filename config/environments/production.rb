@@ -80,11 +80,18 @@ Rails.application.configure do
   #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
   # ]
   #
+
+  # Allow your Fly.io app domain
+  config.hosts << 'gamified-task-manager-api.fly.dev'
+
+  # Allow Fly internal proxy IP addresses (for internal health checks, proxy, etc.)
+  config.hosts << /(\A|\.)fly\.internal\z/
+  config.hosts << IPAddr.new('172.0.0.0/8') # Allows Fly private IP range
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
-  config.active_job.queue_adapter = :solid_queue
-  config.solid_queue.connects_to = { database: { writing: :queue } }
+  config.hosts << 'gamified-task-manager-api.fly.dev'
+  config.action_dispatch.trusted_proxies = [IPAddr.new('0.0.0.0/0')]
 
   # ✅ Allow any origin for now, while keeping credentials (temporary debugging CORS config)
   config.middleware.insert_before 0, Rack::Cors do
