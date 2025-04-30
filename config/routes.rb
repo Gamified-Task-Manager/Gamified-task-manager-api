@@ -8,4 +8,6 @@ Rails.application.routes.draw do
       resources :tasks, only: [:index, :create, :show, :update, :destroy]
     end
   end
+
+  match '*path', to: 'application#preflight', via: [:options]
 end

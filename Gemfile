@@ -33,7 +33,7 @@ gem "redis"
 gem "rswag"
 
 # Background job processing framework
-gem "sidekiq"
+# gem "sidekiq"
 
 # Caching library for fast data retrieval
 gem "solid_cache"

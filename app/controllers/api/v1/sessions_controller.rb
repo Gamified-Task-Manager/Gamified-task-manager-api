@@ -11,6 +11,7 @@ module Api
 
           user_data = UserSerializer.new(user).serializable_hash[:data]
           user_data[:attributes][:token] = token  # Clearly add token here
+          user_data[:attributes][:points] = user.points
 
           render json: { data: user_data }, status: :created
         else
