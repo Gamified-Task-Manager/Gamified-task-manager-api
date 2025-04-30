@@ -38,9 +38,6 @@ gem "rswag"
 # Caching library for fast data retrieval
 gem "solid_cache"
 
-# Real-time WebSocket communication for Rails
-gem "solid_cable"
-
 # Background job processing similar to Sidekiq but native to Rails
 gem "solid_queue"
 
