@@ -35,9 +35,6 @@ gem "rswag"
 # Background job processing framework
 # gem "sidekiq"
 
-# Caching library for fast data retrieval
-gem "solid_cache"
-
 # Background job processing similar to Sidekiq but native to Rails
 gem "solid_queue"
 
