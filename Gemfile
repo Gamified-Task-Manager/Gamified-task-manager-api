@@ -41,9 +41,6 @@ gem "solid_cache"
 # Real-time WebSocket communication for Rails
 gem "solid_cable"
 
-# Background job processing similar to Sidekiq but native to Rails
-gem "solid_queue"
-
 # CLI tool for running Rails applications remotely
 gem "thruster", require: false
 
