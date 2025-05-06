@@ -1,4 +1,4 @@
-module AuthHelpers
+module AuthHelper
   def auth_headers(user)
     token = AuthService.encode(user_id: user.id)
     { 'Authorization' => "Bearer #{token}" }
@@ -6,5 +6,5 @@ module AuthHelpers
 end
 
 RSpec.configure do |config|
-  config.include AuthHelpers, type: :request
+  config.include AuthHelper, type: :request
 end
