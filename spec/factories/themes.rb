@@ -1,7 +1,8 @@
 FactoryBot.define do
   factory :theme do
-    name { Faker::Color.color_name }
-    description { Faker::Lorem.sentence }
-    css_class { Faker::Lorem.word }
+    sequence(:name) { |n| "Theme #{n}" }
+    description { "Some description" }
+    css_class { "theme-css" }
+    image_url { "http://example.com/image.png" }
   end
 end

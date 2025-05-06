@@ -52,15 +52,30 @@ RSpec.describe TaskService do
     
 
     context 'when task transitions to completed' do
-      let(:task) { create(:task, user: user, status: 'pending', completed: false, points_awarded: 10) }
-  
-      it 'awards points to the user' do
-        expected_points = task.points_awarded
+      let(:task) do
+        create(:task,
+          user: user,
+          status: 'pending',
+          priority: 'high',
+          due_date: 1.day.from_now
+        )
+      end
+      
+      let(:expected_points) { task.calculate_points }
+      
+      it "awards points based on logic" do
+        completed_at = Time.current
+        params = { status: 'completed', completed_at: completed_at }
+      
+        # Simulate what the task will look like after update
+        simulated_task = task.dup
+        simulated_task.assign_attributes(params)
+        expected_points = simulated_task.calculate_points
       
         expect {
-          service.update(task, { status: 'completed' })
+          service.update(task, params)
         }.to change { user.reload.points }.by(expected_points)
-      end
+      end 
   
       it 'marks the task as completed' do
         service.update(task, { status: 'completed' })
