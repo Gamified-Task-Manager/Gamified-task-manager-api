@@ -129,4 +129,14 @@ UserReward.create!(
   unlocked: false
 )
 
+Reward.create!(
+  name: 'Golden Donut',
+  description: 'Fun new avatar',
+  points_required: 50,
+  image_url: 'https://example.com/donut.png',
+  reward_type: 'avatar',
+  active: true
+)
+
+
 puts "Seed data added successfully"
