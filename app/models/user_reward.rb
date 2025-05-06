@@ -4,4 +4,5 @@ class UserReward < ApplicationRecord
 
   validates :user, presence: true
   validates :reward, presence: true
+  validates :unlocked, inclusion: { in: [true, false] }
 end
