@@ -29,6 +29,10 @@ module Api
         render json: UserSerializer.new(current_user).serializable_hash, status: :ok
       end
 
+      def profile
+        render json: UserSerializer.new(current_user).serializable_hash
+      end      
+
       private
 
       def user_params

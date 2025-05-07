@@ -124,4 +124,29 @@ RSpec.describe 'User Requests', type: :request do
       end
     end
   end
+
+  describe 'GET /api/v1/profile' do
+    context 'when authenticated' do
+      it 'returns the current user data' do
+        get '/api/v1/profile', headers: auth_headers(user)
+  
+        expect(response).to have_http_status(:ok)
+  
+        body = JSON.parse(response.body)
+        expect(body['data']['attributes']['email']).to eq(user.email)
+        expect(body['data']['attributes']['username']).to eq(user.username)
+      end
+    end
+  
+    context 'when not authenticated' do
+      it 'returns unauthorized' do
+        get '/api/v1/profile'
+  
+        expect(response).to have_http_status(:unauthorized)
+  
+        body = JSON.parse(response.body)
+        expect(body['errors'][0]['title']).to eq('Not authorized')
+      end
+    end
+  end  
 end
