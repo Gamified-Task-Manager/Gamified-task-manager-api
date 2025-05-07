@@ -7,65 +7,96 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
-
 # db/seeds.rb
 
-# Clear out existing data
-puts "Clearing existing data..."
+puts "🌱 Clearing existing data..."
+
 UserReward.destroy_all
 Task.destroy_all
+User.destroy_all
 Reward.destroy_all
 Theme.destroy_all
-User.destroy_all
 
-# Create Themes
-puts "Creating themes..."
+puts "🎨 Creating themes..."
 dark_mode = Theme.create!(
   name: "Dark Mode",
   description: "A sleek dark theme",
-  css_class: "dark-mode"
+  css_class: "dark-mode",
+  image_url: "https://example.com/themes/dark.png"
 )
 
 light_mode = Theme.create!(
   name: "Light Mode",
-  description: "A bright light theme",
-  css_class: "light-mode"
+  description: "A bright theme with light colors",
+  css_class: "light-mode",
+  image_url: "https://example.com/themes/light.png"
 )
 
-# Create Rewards
-puts "Creating rewards..."
-avatar_reward = Reward.create!(
+retro_mode = Theme.create!(
+  name: "Retro Neon",
+  description: "Throwback to the '80s neon style",
+  css_class: "retro-neon",
+  image_url: "https://example.com/themes/retro.png"
+)
+
+puts "🎁 Creating rewards..."
+
+# Avatar Rewards
+cool_avatar = Reward.create!(
   name: "Cool Avatar",
-  description: "A stylish avatar",
+  description: "A stylish avatar with sunglasses",
   points_required: 100,
   reward_type: "avatar",
+  image_url: "https://example.com/avatars/cool.png",
   active: true
 )
 
-game_reward = Reward.create!(
-  name: "Exclusive Game",
-  description: "Unlock this cool game",
+golden_donut = Reward.create!(
+  name: "Golden Donut",
+  description: "Fun new donut avatar",
+  points_required: 50,
+  reward_type: "avatar",
+  image_url: "https://example.com/avatars/donut.png",
+  active: true
+)
+
+# Game Rewards
+exclusive_game = Reward.create!(
+  name: "Sprinkle Dash",
+  description: "An exclusive sprinkle-themed game",
   points_required: 200,
   reward_type: "game",
+  image_url: "https://example.com/games/sprinkle.png",
   active: true
 )
 
-theme_reward = Reward.create!(
-  name: "Premium Theme",
-  description: "Upgrade to a premium theme",
+memory_game = Reward.create!(
+  name: "Memory Match",
+  description: "Sharpen your brain with this game",
+  points_required: 150,
+  reward_type: "game",
+  image_url: "https://example.com/games/memory.png",
+  active: true
+)
+
+# Theme Rewards (match Theme records!)
+premium_theme = Reward.create!(
+  name: "Retro Neon",
+  description: "Upgrade to the retro neon theme",
   points_required: 150,
   reward_type: "theme",
+  image_url: retro_mode.image_url,
   active: true
 )
 
-# Create Users
-puts "Creating users..."
+puts "🙋 Creating users..."
+
 terra = User.create!(
   username: "terra",
   email: "terra@example.com",
   password: "securepassword",
   theme: dark_mode,
-  avatar: avatar_reward,
+  avatar: cool_avatar,
   points: 500
 )
 
@@ -74,12 +105,12 @@ alex = User.create!(
   email: "alex@example.com",
   password: "password123",
   theme: light_mode,
-  avatar: theme_reward,
+  avatar: golden_donut,
   points: 300
 )
 
-# Create Tasks
-puts "Creating tasks..."
+puts "✅ Creating tasks..."
+
 Task.create!(
   user: terra,
   name: "Finish Project",
@@ -105,7 +136,7 @@ Task.create!(
 Task.create!(
   user: alex,
   name: "Debug Code",
-  description: "Fix the existing bugs in the app",
+  description: "Fix bugs in the app",
   points_awarded: 20,
   completed: false,
   due_date: Date.today + 2,
@@ -113,30 +144,20 @@ Task.create!(
   status: "pending"
 )
 
-# Assign Rewards to Users via UserReward
-puts "Assigning rewards..."
+puts "🎁 Assigning rewards..."
+
 UserReward.create!(
   user: terra,
-  reward: game_reward,
+  reward: exclusive_game,
   purchased: true,
   unlocked: true
 )
 
 UserReward.create!(
   user: alex,
-  reward: avatar_reward,
+  reward: cool_avatar,
   purchased: true,
   unlocked: false
 )
 
-Reward.create!(
-  name: 'Golden Donut',
-  description: 'Fun new avatar',
-  points_required: 50,
-  image_url: 'https://example.com/donut.png',
-  reward_type: 'avatar',
-  active: true
-)
-
-
-puts "Seed data added successfully"
+puts "✅ Seed data added successfully!"
